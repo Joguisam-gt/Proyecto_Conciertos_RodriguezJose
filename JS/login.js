@@ -1,56 +1,19 @@
-// Esperamos a que el DOM esté cargado
-document.addEventListener('DOMContentLoaded', () => {
-    const loginForm = document.querySelector('.login-form');
-    const emailInput = document.getElementById('email');
-    const passwordInput = document.getElementById('password');
+/**
+ * login.js
+ * Maneja la logica de autenticacion de administrador usando Web Components
+ * personalizados para los campos del formulario y localStorage para la sesion.
+ */
 
-    loginForm.addEventListener('submit', (e) => {
-        // Evitamos que el formulario recargue la página para manejar la validación
-        e.preventDefault();
+// ============================================================
+// SECCION 1: DEFINICION DE WEB COMPONENTS
+// Se definen los elementos HTML personalizados que usa la pagina
+// de login para renderizar el branding y los campos de entrada.
+// ============================================================
 
-        const emailValue = emailInput.value;
-        const passValue = passwordInput.value;
-
-        // Validación de credenciales solicitadas
-        if (emailValue === 'admin@mail.com' && passValue === '123456') {
-            showToast("Acceso correcto. Redirigiendo al Dashboard...", "success");
-
-            // Redirección al archivo dashboard.html tras 1.5 segundos
-            setTimeout(() => {
-                window.location.href = '/HTML/dashboard.html';
-            }, 1500);
-
-        } else {
-            // Mensaje en caso de error
-            showToast("Credenciales incorrectas. Intenta de nuevo.", "error");
-        }
-    });
-
-    /**
-     * Crea y muestra un mensaje emergente (Toast) en la pantalla.
-     * @param {string} message - El texto a mostrar.
-     * @param {string} type - El tipo de mensaje ('success' o 'error').
-     */
-    function showToast(message, type) {
-        // Limpiamos notificaciones anteriores para no amontonarlas
-        const oldToast = document.querySelector('.toast-message');
-        if (oldToast) oldToast.remove();
-
-        const toast = document.createElement('div');
-        toast.className = `toast-message ${type === 'success' ? 'toast-success' : 'toast-error'}`;
-        toast.innerText = message;
-
-        document.body.appendChild(toast);
-
-        // Animación de salida y eliminación del elemento
-        setTimeout(() => {
-            toast.style.opacity = '0';
-            setTimeout(() => toast.remove(), 500);
-        }, 3000);
-    }
-});
-
-// 1. DEFINICIÓN DE COMPONENTES
+/**
+ * Componente de branding: renderiza el logo y nombre del sistema
+ * al ser insertado en el DOM como <ticket-hub-branding>.
+ */
 class TicketHubBranding extends HTMLElement {
     connectedCallback() {
         this.innerHTML = `
@@ -58,13 +21,19 @@ class TicketHubBranding extends HTMLElement {
                 <div class="logo-box">
                     <span class="material-symbols-outlined logo-icon">confirmation_number</span>
                 </div>
-                <h1 class="brand-name">TIKETHUB</h1>
+                <h1 class="brand-name">TICKETHUB</h1>
                 <p class="brand-subtitle">Admin Console</p>
             </header>
         `;
     }
 }
 
+/**
+ * Componente de campo de entrada: renderiza un input con icono y etiqueta
+ * usando los atributos HTML pasados al elemento <ticket-hub-input>.
+ * El input interno recibe el ID del elemento mas el sufijo "-internal"
+ * para poder ser accedido desde el script de validacion.
+ */
 class TicketHubInput extends HTMLElement {
     connectedCallback() {
         const label = this.getAttribute('label') || '';
@@ -85,43 +54,97 @@ class TicketHubInput extends HTMLElement {
     }
 }
 
+// Registro de los Web Components en el navegador
 customElements.define('ticket-hub-branding', TicketHubBranding);
 customElements.define('ticket-hub-input', TicketHubInput);
 
-// 2. LÓGICA DE VALIDACIÓN
-document.addEventListener('DOMContentLoaded', () => {
-    // Estilos para que los componentes se vean
-    const style = document.createElement('style');
-    style.textContent = `ticket-hub-branding, ticket-hub-input { display: block; width: 100%; }`;
-    document.head.appendChild(style);
+// ============================================================
+// SECCION 2: LOGICA DE AUTENTICACION
+// Se ejecuta una vez que el DOM esta completamente cargado,
+// garantizando que los Web Components ya hayan renderizado
+// sus inputs internos antes de intentar accederlos.
+// ============================================================
 
+document.addEventListener('DOMContentLoaded', () => {
+
+    // Inyectamos estilos base para que los Web Components respeten
+    // el flujo de bloque del resto del formulario
+    const componentStyles = document.createElement('style');
+    componentStyles.textContent = `
+        ticket-hub-branding,
+        ticket-hub-input { display: block; width: 100%; }
+    `;
+    document.head.appendChild(componentStyles);
+
+    // Referencia al formulario de login
     const loginForm = document.querySelector('.login-form');
 
+    // --------------------------------------------------------
+    // MANEJADOR DEL ENVIO DEL FORMULARIO
+    // Valida las credenciales ingresadas contra los valores
+    // definidos. Si son correctos, guarda la sesion en
+    // localStorage y redirige al dashboard de administracion.
+    // --------------------------------------------------------
     loginForm.addEventListener('submit', (e) => {
         e.preventDefault();
 
-        // IMPORTANTE: Buscamos por el ID que pusiste en el HTML + "-internal"
+        // Los inputs son hijos del Web Component, se acceden por el ID interno
         const emailInput = document.getElementById('email-field-internal');
         const passwordInput = document.getElementById('password-field-internal');
 
-        if (emailInput && passwordInput) {
-            if (emailInput.value === 'admin@mail.com' && passwordInput.value === '123456') {
-                showToast("Acceso correcto...", "success");
-                setTimeout(() => { window.location.href = '/HTML/dashboard.html'; }, 1500);
-            } else {
-                showToast("Credenciales incorrectas.", "error");
-            }
+        // Verificar que los Web Components hayan terminado de renderizar
+        if (!emailInput || !passwordInput) {
+            showToast("Error interno: campos de formulario no encontrados.", "error");
+            return;
+        }
+
+        const email = emailInput.value.trim();
+        const password = passwordInput.value;
+
+        // Validacion de credenciales de administrador
+        if (email === 'admin@mail.com' && password === '123456') {
+            // Guardar sesion activa en localStorage para proteger las rutas admin
+            localStorage.setItem('tickethub_session', JSON.stringify({
+                role: 'admin',
+                email: email,
+                loginTime: new Date().toISOString()
+            }));
+
+            showToast("Acceso correcto. Redirigiendo al Dashboard...", "success");
+
+            // Redireccion al dashboard tras mostrar el toast
+            setTimeout(() => {
+                window.location.href = '/HTML/dashboard.html';
+            }, 1500);
+        } else {
+            showToast("Credenciales incorrectas. Intenta de nuevo.", "error");
         }
     });
 });
 
+// ============================================================
+// SECCION 3: FUNCION DE NOTIFICACION (TOAST)
+// Funcion global reutilizable que muestra un mensaje temporal
+// en la pantalla para feedback de acciones del usuario.
+// ============================================================
+
+/**
+ * Crea y muestra un mensaje emergente (Toast) en la pantalla.
+ * Elimina cualquier toast anterior para evitar acumulacion visual.
+ * @param {string} message - El texto a mostrar.
+ * @param {string} type - El tipo de mensaje ('success' o 'error').
+ */
 function showToast(message, type) {
+    // Eliminar toast anterior si existe
     const oldToast = document.querySelector('.toast-message');
     if (oldToast) oldToast.remove();
+
     const toast = document.createElement('div');
     toast.className = `toast-message ${type === 'success' ? 'toast-success' : 'toast-error'}`;
     toast.innerText = message;
     document.body.appendChild(toast);
+
+    // Animacion de desvanecimiento y eliminacion del elemento tras 3 segundos
     setTimeout(() => {
         toast.style.opacity = '0';
         setTimeout(() => toast.remove(), 500);

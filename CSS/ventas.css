@@ -141,12 +141,7 @@ body {
     transform: scale(0.95);
 }
 
-.sidebar-footer {
-    margin-top: auto;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-}
+
 
 /* Main Content */
 .main-wrapper {
@@ -988,4 +983,171 @@ body {
     background: rgba(68, 221, 193, 0.15);
     color: #44ddc1;
 }
-    
+
+/* ---- Footer del sidebar: empuja hacia abajo con margin-top auto ---- */
+.sidebar-footer {
+    margin-top: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255,255,255,0.06);
+}
+
+/* ---- Boton de logout: mismo look que un nav-link pero como <button> ---- */
+.logout-btn {
+    width: 100%;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    font-family: inherit;
+    font-size: inherit;
+}
+
+.logout-btn:hover {
+    background: rgba(220, 50, 50, 0.12) !important;
+    color: #ff6b6b !important;
+}
+
+/* ============================================================
+   RESPONSIVE DESIGN - VENTAS ADMIN
+   Layout real: body { display:flex } + .sidebar (fixed 256px)
+   + .main-content { margin-left: 256px }
+============================================================ */
+
+/* Pantalla dividida */
+@media (max-width: 1024px) {
+    body {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        display: none;
+    }
+
+    .main-content {
+        margin-left: 0 !important;
+        padding: 1.5rem;
+        width: 100%;
+        min-height: 100vh;
+    }
+
+    /* Tablas: scroll horizontal */
+    .table-container,
+    .data-table-container {
+        overflow-x: auto;
+    }
+
+    .data-table,
+    table {
+        min-width: 540px;
+    }
+
+    /* Header de pagina */
+    .page-header,
+    .content-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.75rem;
+    }
+}
+
+/* Tablet */
+@media (max-width: 768px) {
+    .main-content {
+        padding: 1rem;
+    }
+
+    .page-title {
+        font-size: 1.5rem;
+    }
+}
+
+/* Movil */
+@media (max-width: 480px) {
+    .main-content {
+        padding: 0.75rem;
+    }
+
+    .page-title {
+        font-size: 1.25rem;
+    }
+}
+
+
+/* ============================================================
+   SIDEBAR MOBILE: hamburguesa y panel deslizante
+   En pantallas <= 1024px el sidebar se oculta y abre con el
+   boton hamburguesa que aparece en la esquina superior izquierda.
+============================================================ */
+
+/* Boton hamburguesa: solo visible en mobile */
+.hamburger-btn {
+    display: none;
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    z-index: 1100;
+    background: rgba(20, 20, 40, 0.95);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 10px;
+    width: 44px;
+    height: 44px;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #fff;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.4);
+    transition: background 0.2s;
+}
+
+.hamburger-btn:hover {
+    background: rgba(93, 33, 223, 0.5);
+}
+
+/* Overlay oscuro detras del sidebar abierto en mobile */
+.sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    z-index: 1050;
+    backdrop-filter: blur(2px);
+}
+
+.sidebar-overlay.active {
+    display: block;
+}
+
+@media (max-width: 1024px) {
+    /* El hamburger se muestra en mobile */
+    .hamburger-btn {
+        display: flex;
+    }
+
+    /* El sidebar se convierte en drawer: posicion fija, fuera de pantalla */
+    .sidebar {
+        position: fixed;
+        top: 0;
+        left: -280px;
+        height: 100vh;
+        width: 260px;
+        z-index: 1100;
+        transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 4px 0 24px rgba(0,0,0,0.5);
+    }
+
+    /* Clase .open agrega el JS al hacer click en hamburguesa */
+    .sidebar.open {
+        left: 0;
+    }
+
+    /* El contenido principal ocupa todo el ancho */
+    .main-content,
+    .main-canvas {
+        margin-left: 0 !important;
+        width: 100%;
+        padding-top: 4rem;
+    }
+}

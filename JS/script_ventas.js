@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (sale.tickets && sale.tickets.length > 0) {
             ticketsHTML = sale.tickets.map(t => `
                 <div style="padding: 10px; background: rgba(255,255,255,0.05); border-radius: 8px; margin-bottom: 8px; border-left: 3px solid var(--secondary); display: flex; justify-content: space-between;">
-                    <span>🎟️ ${t.name}</span>
+                    <span><span class="material-symbols-outlined" style="font-size:14px;vertical-align:middle;">local_activity</span> ${t.name}</span>
                     <strong>$${t.price}</strong>
                 </div>
             `).join('');

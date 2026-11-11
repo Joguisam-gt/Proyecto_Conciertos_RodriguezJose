@@ -13,12 +13,20 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
         rel="stylesheet" />
-    <link rel="stylesheet" href="../CSS/eventos.css" />
+    <link rel="stylesheet" href="/CSS/eventos.css" />
+    <script src="/JS/auth-guard.js"></script>
 
 </head>
 
 <body>
     <!-- Sidebar Navigation -->
+
+    <!-- Boton hamburguesa visible solo en mobile para abrir el sidebar -->
+    <button class="hamburger-btn" id="hamburger-btn" aria-label="Abrir menu">
+        <span class="material-symbols-outlined">menu</span>
+    </button>
+    <!-- Overlay oscuro detras del sidebar en mobile -->
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
     <aside class="sidebar">
         <div class="sidebar-brand">
             <span class="brand-name">TICKETHUB</span>
@@ -43,14 +51,10 @@
             </a>
         </nav>
         <div class="sidebar-footer">
-            <a class="nav-link" href="#">
-                <span class="material-symbols-outlined">settings</span>
-                <span>Settings</span>
-            </a>
-            <a class="nav-link" href="#">
-                <span class="material-symbols-outlined">contact_support</span>
-                <span>Support</span>
-            </a>
+            <button class="nav-link logout-btn" onclick="cerrarSesion()">
+                <span class="material-symbols-outlined">logout</span>
+                <span>Cerrar Sesion</span>
+            </button>
         </div>
     </aside>
     <!-- Top Header -->
@@ -174,165 +178,36 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <!-- Row 1 -->
-                            <tr>
-                                <td>
-                                    <div class="thumbnail-container">
-                                        <img alt="Neon Nights" class="thumbnail-img"
-                                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBD-BgidajVTq0iBY5cDogNXCz0ZLpj3eW7hVBV5gPXHhVMYqT7K9vypVxWXX-cZ14lAkWsG4qxffiWT3kTGhPWmkzbQ_Y5iYxb65Ya2k-JuETsAaxHeQHHRK-XBkGzV22JfqmmC2m0hpKUQReTawiz2IvViwqrWgvlzcJzYA9dKKhDYseuRs--p0a4EQo_JHAWDQfVmpDRFjFsQcMgaC6LEi72kIlDq7Z0HrtLmvfXBQFcBBJPd9hDGFqGTiCs_BPGXEGhVImM-g" />
-                                    </div>
-                                </td>
-                                <td><span class="code-badge">TKH-772</span></td>
-                                <td>
-                                    <p class="event-main-info">Neon Nights 2024</p>
-                                    <div class="live-status">
-                                        <span class="dot-pulse"></span>
-                                        <span class="status-text">Live Pulse</span>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="meta-info-row">
-                                        <div class="meta-item"><span
-                                                class="material-symbols-outlined icon-sm">location_on</span> Medellín
-                                        </div>
-                                        <div class="meta-item"><span
-                                                class="material-symbols-outlined icon-sm">calendar_today</span> Oct 12,
-                                            22:00</div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <p class="price-val">$120.00</p>
-                                    <span class="price-tier">Standard Tier</span>
-                                </td>
-                                <td class="actions-cell">
-                                    <div class="actions-container">
-                                        <button class="btn-action edit"><span
-                                                class="material-symbols-outlined">edit</span></button>
-                                        <button class="btn-action delete"><span
-                                                class="material-symbols-outlined">delete</span></button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <!-- Row 2 -->
-                            <tr>
-                                <td>
-                                    <div class="thumbnail-container">
-                                        <img alt="Future Tech" class="thumbnail-img"
-                                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDx47JRNmyioe1zmc_VbEZ-gh7g-qP4B4tB2ZHFLOYHyVb3-VuALBEJmOCyRVfxeMxOqsQK8tMg80LtUMk_bPi5JTrasDRbX0VBIKhftSVFlc4bkjOyKUcJS1eZxoT4wQPKOGHIROKTUC5Sq_yixEhFyS4zy_FQvi10YRTEBhXJiP9h2BgOG4AYJ6jRgQU8eNl8eFA47WlmvUpKJxuyo7ZRLnf4hzyFRUmccQaMdGvnGoOh4vK-LkhsXOjZXHFYdpLI4GeVi6jLKw" />
-                                    </div>
-                                </td>
-                                <td><span class="code-badge">TKH-109</span></td>
-                                <td>
-                                    <p class="event-main-info">Future Tech Summit</p>
-                                    <p class="price-tier" style="font-weight: 700; text-transform: uppercase;">
-                                        Conference</p>
-                                </td>
-                                <td>
-                                    <div class="meta-info-row">
-                                        <div class="meta-item"><span
-                                                class="material-symbols-outlined icon-sm">location_on</span> Bogotá
-                                        </div>
-                                        <div class="meta-item"><span
-                                                class="material-symbols-outlined icon-sm">calendar_today</span> Nov 05,
-                                            09:00</div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <p class="price-val">$450.00</p>
-                                    <span class="price-tier">Early Bird</span>
-                                </td>
-                                <td class="actions-cell">
-                                    <div class="actions-container">
-                                        <button class="btn-action edit"><span
-                                                class="material-symbols-outlined">edit</span></button>
-                                        <button class="btn-action delete"><span
-                                                class="material-symbols-outlined">delete</span></button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <!-- Row 3 -->
-                            <tr>
-                                <td>
-                                    <div class="thumbnail-container">
-                                        <img alt="Jazz" class="thumbnail-img"
-                                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCqPctcJBz8WjFsq8zUOdIU6zuygCv9e2ab-eon7Bzo2bSoUmUwuNIh2ar5Y48_HqP4L31EOgLzKgRLpCpVjL1VEeumHedH73a_fArFEw1ovJhy2j6KW4egK8YHP3lEq-0ClEiM32pAp7czTl1I1NvUL0hPvy5NGmoXmGEiFl1DurCaSW2VMvWKsR-rwxYsoTh6OceHml0yb6ImSeJDR0Sv5B3QyoduYduFmJiWW6TWJpCl8Sdf1TPorrhUKyTHyv1zzkN-AJKNkg" />
-                                    </div>
-                                </td>
-                                <td><span class="code-badge">TKH-882</span></td>
-                                <td>
-                                    <p class="event-main-info">Jazz Under Stars</p>
-                                    <p class="price-tier" style="font-weight: 700; text-transform: uppercase;">Workshop
-                                    </p>
-                                </td>
-                                <td>
-                                    <div class="meta-info-row">
-                                        <div class="meta-item"><span
-                                                class="material-symbols-outlined icon-sm">location_on</span>
-                                            Barranquilla</div>
-                                        <div class="meta-item"><span
-                                                class="material-symbols-outlined icon-sm">calendar_today</span> Dec 15,
-                                            19:30</div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <p class="price-val">$35.00</p>
-                                    <span class="price-tier">Cover Charge</span>
-                                </td>
-                                <td class="actions-cell">
-                                    <div class="actions-container">
-                                        <button class="btn-action edit"><span
-                                                class="material-symbols-outlined">edit</span></button>
-                                        <button class="btn-action delete"><span
-                                                class="material-symbols-outlined">delete</span></button>
-                                    </div>
-                                </td>
-                            </tr>
-                            <!-- Row 4 -->
-                            <tr>
-                                <td>
-                                    <div class="thumbnail-container">
-                                        <img alt="Beats" class="thumbnail-img"
-                                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBlfzdB--wgeGR37Sq0ju7qKzeNwY-4-I2SPPfXJb_QVdrzdiFC1kFPuPDRNz8rzvOXmwYQy_wo7f6HmBNBOnZAS51OC2qZYwzAQrRFYYm05lFS5O4yfsoOgdMdhXXVnN7CXgBj6ZvtL2hVI8zI3AfjqBUuf8qNxXWWKtbjDPjQEnzI2ayYpxQOiq8NxSrdbQfTXxXvdYaf4KLSUYNSiDTfJudI1jLtL4jgCcc8pVvrlSMub04108Dnj8YX5vEUZjrRIQLc7uvCEA" />
-                                    </div>
-                                </td>
-                                <td><span class="code-badge">TKH-331</span></td>
-                                <td>
-                                    <p class="event-main-info">Bucaramanga Beats</p>
-                                    <p class="price-tier" style="font-weight: 700; text-transform: uppercase;">Festival
-                                    </p>
-                                </td>
-                                <td>
-                                    <div class="meta-info-row">
-                                        <div class="meta-item"><span
-                                                class="material-symbols-outlined icon-sm">location_on</span> Bucaramanga
-                                        </div>
-                                        <div class="meta-item"><span
-                                                class="material-symbols-outlined icon-sm">calendar_today</span> Jan 20,
-                                            14:00</div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <p class="price-val">$85.00</p>
-                                    <span class="price-tier">General Admission</span>
-                                </td>
-                                <td class="actions-cell">
-                                    <div class="actions-container">
-                                        <button class="btn-action edit"><span
-                                                class="material-symbols-outlined">edit</span></button>
-                                        <button class="btn-action delete"><span
-                                                class="material-symbols-outlined">delete</span></button>
-                                    </div>
-                                </td>
-                            </tr>
-                        </tbody>
+                            </tbody>
                     </table>
                 </div>
             </div>
         </div>
     </main>
 
+    <div id="toast-container" class="toast-container"></div>
+
     <script src="/JS/eventos.js"></script>
     <script src="/JS/animation.js"></script>
+
+    <script>
+        /* Control del sidebar en mobile: abre y cierra con el boton hamburguesa */
+        (function() {
+            var btn = document.getElementById('hamburger-btn');
+            var overlay = document.getElementById('sidebar-overlay');
+            var sidebar = document.querySelector('.sidebar');
+            function openSidebar() {
+                sidebar.classList.add('open');
+                overlay.classList.add('active');
+            }
+            function closeSidebar() {
+                sidebar.classList.remove('open');
+                overlay.classList.remove('active');
+            }
+            if (btn) btn.addEventListener('click', openSidebar);
+            if (overlay) overlay.addEventListener('click', closeSidebar);
+        })();
+    </script>
 </body>
 
 </html>

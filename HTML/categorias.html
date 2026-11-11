@@ -7,14 +7,21 @@
     <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="/CSS/categorias.css">
+    <script src="/JS/auth-guard.js"></script>
 </head>
 <body>
+
+    <!-- Boton hamburguesa visible solo en mobile para abrir el sidebar -->
+    <button class="hamburger-btn" id="hamburger-btn" aria-label="Abrir menu">
+        <span class="material-symbols-outlined">menu</span>
+    </button>
+    <!-- Overlay oscuro detras del sidebar en mobile -->
+    <div class="sidebar-overlay" id="sidebar-overlay"></div>
     <aside class="sidebar">
         <div class="sidebar-brand">
             <span class="brand-name">TICKETHUB</span>
             <span class="brand-sub">Admin Console</span>
         </div>
-        <nav class="sidebar-nav">
         <nav class="sidebar-nav">
             <a class="nav-link" href="/HTML/dashboard.html">
                 <span class="material-symbols-outlined">grid_view</span>
@@ -33,7 +40,12 @@
                 <span>Sales</span>
             </a>
         </nav>
-        </nav>
+        <div class="sidebar-footer">
+            <button class="nav-link logout-btn" onclick="cerrarSesion()">
+                <span class="material-symbols-outlined">logout</span>
+                <span>Cerrar Sesion</span>
+            </button>
+        </div>
     </aside>
 
     <main class="main-canvas">
@@ -131,5 +143,24 @@
 
     <script src="/JS/categorias.js"></script>
     <script src="/JS/animation.js"></script>
+
+    <script>
+        /* Control del sidebar en mobile: abre y cierra con el boton hamburguesa */
+        (function() {
+            var btn = document.getElementById('hamburger-btn');
+            var overlay = document.getElementById('sidebar-overlay');
+            var sidebar = document.querySelector('.sidebar');
+            function openSidebar() {
+                sidebar.classList.add('open');
+                overlay.classList.add('active');
+            }
+            function closeSidebar() {
+                sidebar.classList.remove('open');
+                overlay.classList.remove('active');
+            }
+            if (btn) btn.addEventListener('click', openSidebar);
+            if (overlay) overlay.addEventListener('click', closeSidebar);
+        })();
+    </script>
 </body>
 </html>

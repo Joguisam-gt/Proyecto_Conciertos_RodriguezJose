@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         <button class="btn-modern btn-add-cart-modern" onclick="window.handleAddToCart('${ev.id}')" title="Add to Cart">
                             <span class="material-symbols-outlined">shopping_cart</span>
                         </button>
-                        <a href="descripcion.html?id=${ev.id}" class="btn-modern btn-details-modern">
+                        <a href="/HTML/descripcion.html?id=${ev.id}" class="btn-modern btn-details-modern">
                             Details
                             <span class="material-symbols-outlined">arrow_forward</span>
                         </a>
@@ -129,6 +129,11 @@ window.handleAddToCart = (id) => {
     if (typeof window.agregarAlCarrito === 'function') {
         window.agregarAlCarrito(id);
     } else {
-        alert("Event added to cart!"); // Fallback si no hay script_carrito
+        // Fallback toast si script_carrito no esta cargado
+        const t = document.createElement('div');
+        t.textContent = 'Carrito no disponible. Recarga la pagina.';
+        t.style.cssText = 'position:fixed;bottom:24px;right:24px;background:#1c1b2e;color:#fff;padding:12px 20px;border-radius:10px;font-size:0.85rem;z-index:99999;border:1px solid rgba(255,255,255,0.1);box-shadow:0 8px 24px rgba(0,0,0,0.4);';
+        document.body.appendChild(t);
+        setTimeout(() => t.remove(), 3000);
     }
 };

@@ -1,251 +1,209 @@
-/* === CODIGO ORIGINAL DE carrito.css === */
+/* ============================================================
+   carrito.css
+   Estilos completos del modal del carrito de compras.
+   Cubre: overlay, panel lateral, items, formulario de checkout
+   y modal de confirmacion de compra.
+   Este archivo debe cargarse despues de index.css.
+============================================================ */
+
+/* ============================================================
+   VARIABLES GLOBALES CSS
+   Paleta de colores y tokens de diseno reutilizables
+============================================================ */
 :root {
-    --primary: #cdbdff;
-    --primary-container: #5d21df;
-    --on-primary: #370096;
-    --secondary: #44ddc1;
-    --background: #0e0e0e;
-    --surface: #131313;
-    --surface-container: #1c1b1b;
-    --surface-container-high: #2a2a2a;
-    --on-surface: #e5e2e1;
-    --on-surface-variant: #cbc3d9;
-    --outline-variant: #494456;
-    --error: #ffb4ab;
-    --radius-xl: 2rem;
-    --radius-lg: 1.25rem;
-    --radius-md: 0.75rem;
-    --glass-bg: rgba(20, 20, 20, 0.7);
-    --glass-border: rgba(255, 255, 255, 0.08);
-    --shadow-premium: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+    --primary:                  #cdbdff;
+    --primary-container:        #5d21df;
+    --on-primary:               #370096;
+    --secondary:                #44ddc1;
+    --background:               #0a0a14;
+    --surface:                  #131313;
+    --surface-container:        #1c1b1b;
+    --surface-container-high:   #2a2a2a;
+    --on-surface:               #e5e2e1;
+    --on-surface-variant:       #cbc3d9;
+    --outline-variant:          #494456;
+    --error:                    #ffb4ab;
+    --radius-xl:                2rem;
+    --radius-lg:                1.25rem;
+    --radius-md:                0.75rem;
+    --glass-bg:                 rgba(20, 20, 20, 0.7);
+    --glass-border:             rgba(255, 255, 255, 0.08);
+    --shadow-premium:           0 25px 50px -12px rgba(0, 0, 0, 0.7);
 }
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
-
-body {
-    background-color: var(--background);
-    color: var(--on-surface);
-    font-family: 'Inter', sans-serif;
-    overflow-x: hidden;
-}
-
-h1,
-h2,
-h3,
-h4,
-.font-headline {
-    font-family: 'Manrope', sans-serif;
-}
-
-/* Navigation Styles */
-.header {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    height: 80px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0 2rem;
-    background: rgba(19, 19, 19, 0.8);
-    backdrop-filter: blur(12px);
-    z-index: 50;
-}
-
-.logo {
-    font-size: 1.5rem;
-    font-weight: 900;
-    letter-spacing: -0.05em;
-    color: var(--primary);
-}
-
-/* Sidebar Styles */
-.sidebar {
-    position: fixed;
-    left: 0;
-    top: 80px;
-    width: 256px;
-    height: calc(100vh - 80px);
-    background: var(--surface-container);
-    padding-top: 2.5rem;
-    display: none;
-}
-
-@media (min-width: 1024px) {
-    .sidebar {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .main-content {
-        margin-left: 256px;
-    }
-}
-
-.sidebar-link {
-    padding: 1rem 1.5rem;
-    color: var(--on-surface);
-    opacity: 0.6;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    text-transform: uppercase;
-    font-size: 0.875rem;
-    letter-spacing: 0.1em;
-    transition: all 0.3s ease;
-}
-
-.sidebar-link:hover {
-    opacity: 1;
-    background: var(--surface-container-high);
-    transform: translateX(4px);
-}
-
-/* Modal Overlay */
+/* ============================================================
+   OVERLAY DEL MODAL
+   Cubre toda la pantalla con fondo oscuro difuminado.
+   Por defecto esta oculto; la clase .show lo activa.
+============================================================ */
 .modal-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(8px);
+    background: rgba(0, 0, 0, 0.78);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    z-index: 9999;
+    display: none;
+    align-items: stretch;
+    justify-content: flex-end;
+}
+
+/* Estado activo: script_carrito.js agrega/quita esta clase */
+.modal-overlay.show {
+    display: flex;
+}
+
+/* ============================================================
+   PANEL DEL CARRITO
+   Panel lateral que se desliza desde la derecha.
+   Ocupa todo el alto de la pantalla.
+============================================================ */
+.modal-card {
+    width: 100%;
+    max-width: 780px;
+    height: 100vh;
+    background: #12121f;
+    border-left: 1px solid rgba(255, 255, 255, 0.08);
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+    position: relative;
+    box-shadow: -20px 0 60px rgba(0, 0, 0, 0.6);
+}
+
+/* ============================================================
+   BOTON DE CIERRE
+   Esquina superior derecha del panel
+============================================================ */
+.close-modal {
+    position: absolute;
+    top: 1.25rem;
+    right: 1.25rem;
+    background: rgba(255, 255, 255, 0.08);
+    border: none;
+    border-radius: 8px;
+    width: 36px;
+    height: 36px;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 2rem;
-    z-index: 100;
-    /* Cambio: Aseguramos que empiece oculto */
-    display: none; 
+    cursor: pointer;
+    color: #fff;
+    z-index: 10;
+    transition: background 0.2s;
 }
 
-.modal-card {
-    background: var(--glass-bg);
-    backdrop-filter: blur(24px);
-    border: 1px solid var(--glass-border);
-    width: 100%;
-    max-width: 1000px;
-    height: 90vh;
-    max-height: 800px;
-    border-radius: var(--radius-xl);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    box-shadow: var(--shadow-premium);
-    position: relative;
+.close-modal:hover {
+    background: rgba(255, 255, 255, 0.16);
 }
 
-@media (min-width: 768px) {
-    .modal-card {
-        flex-direction: row;
-    }
-}
-
-/* Modal Left: Items */
+/* ============================================================
+   PANEL IZQUIERDO: LISTA DE ITEMS
+   Scroll interno para muchos productos
+============================================================ */
 .modal-items-section {
     flex: 1;
-    padding: 3rem;
+    min-width: 0;
+    overflow-x: hidden;
     overflow-y: auto;
-    scrollbar-width: none;
-}
-
-.modal-items-section::-webkit-scrollbar {
-    display: none;
-}
-
-.modal-header {
+    padding: 2.5rem 2rem;
+    border-right: 1px solid rgba(255, 255, 255, 0.06);
     display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    margin-bottom: 3rem;
+    flex-direction: column;
 }
 
-.tagline {
-    color: var(--secondary);
-    font-weight: 800;
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: 0.2em;
+/* Encabezado del panel de items */
+.modal-header {
+    margin-bottom: 2rem;
+    padding-top: 0.5rem;
 }
 
-.title {
-    font-size: 2.5rem;
-    font-weight: 800;
-    margin-top: 0.5rem;
-}
-
-.order-date-box {
-    text-align: right;
-}
-
-.order-date-label {
-    font-size: 0.625rem;
-    text-transform: uppercase;
-    color: var(--on-surface-variant);
+.modal-header .tagline {
+    font-size: 0.72rem;
     font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--secondary);
+    display: block;
+    margin-bottom: 0.4rem;
 }
 
-.order-date-value {
-    font-family: monospace;
-    font-size: 0.875rem;
+.modal-header .title {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 800;
+    font-size: 1.6rem;
+    color: var(--on-surface);
+    margin: 0;
 }
 
-/* Cart Items */
+/* ============================================================
+   ITEMS INDIVIDUALES DEL CARRITO
+============================================================ */
 .cart-item {
     background: rgba(255, 255, 255, 0.03);
     border-radius: var(--radius-lg);
     padding: 1.25rem;
     display: flex;
     align-items: center;
-    gap: 1.5rem;
-    margin-bottom: 1.5rem;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    gap: 1.25rem;
+    margin-bottom: 1.25rem;
     border: 1px solid transparent;
+    transition: background 0.2s, transform 0.2s, border-color 0.2s;
 }
 
 .cart-item:hover {
     background: rgba(255, 255, 255, 0.05);
-    transform: translateY(-4px);
+    transform: translateY(-2px);
     border-color: var(--glass-border);
 }
 
+/* Imagen del evento en el item */
 .item-image {
-    width: 90px;
-    height: 90px;
+    width: 80px;
+    height: 80px;
     border-radius: var(--radius-md);
-    object-fit: cover; /* Corregido: object-cover no existe, es object-fit */
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    object-fit: cover;
+    flex-shrink: 0;
 }
 
+/* Texto del item */
 .item-info {
     flex: 1;
 }
 
 .item-name {
+    font-family: 'Manrope', sans-serif;
     font-weight: 700;
-    font-size: 1.125rem;
-    margin-bottom: 0.25rem;
+    font-size: 1rem;
+    color: var(--on-surface);
+    margin: 0 0 4px;
 }
 
 .item-desc {
     color: var(--on-surface-variant);
-    font-size: 0.875rem;
+    font-size: 0.82rem;
+    line-height: 1.4;
+    margin: 0;
 }
 
+/* Columna de precio y boton eliminar */
 .item-price-col {
     text-align: right;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
 }
 
 .item-price {
     display: block;
     color: var(--secondary);
     font-weight: 800;
-    font-size: 1.25rem;
-    font-family: 'Manrope';
+    font-size: 1.15rem;
+    font-family: 'Manrope', sans-serif;
 }
 
+/* Boton de eliminar item */
 .remove-btn {
     background: none;
     border: none;
@@ -253,10 +211,13 @@ h4,
     font-weight: 700;
     font-size: 0.7rem;
     text-transform: uppercase;
+    letter-spacing: 0.04em;
     cursor: pointer;
-    margin-top: 0.5rem;
     opacity: 0.7;
     transition: opacity 0.2s;
+    display: flex;
+    align-items: center;
+    gap: 4px;
 }
 
 .remove-btn:hover {
@@ -264,186 +225,151 @@ h4,
     text-decoration: underline;
 }
 
-/* Modal Right: Checkout */
+/* ============================================================
+   PANEL DERECHO: CHECKOUT
+   Resumen de orden y formulario de datos personales
+============================================================ */
 .modal-checkout-section {
-    width: 100%;
-    background: rgba(0, 0, 0, 0.2);
-    padding: 3rem;
+    width: 340px;
+    min-width: 300px;
+    flex-shrink: 0;
+    padding: 2.5rem 2rem;
+    overflow-y: auto;
     display: flex;
     flex-direction: column;
-    border-left: 1px solid var(--glass-border);
+    gap: 2rem;
+    background: #0e0e1a;
 }
 
-@media (min-width: 768px) {
-    .modal-checkout-section {
-        width: 400px;
-    }
-}
-
+/* Bloque de resumen de precio */
 .summary-block {
-    margin-bottom: 2.5rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-lg);
+    padding: 1.5rem;
 }
 
 .summary-label {
-    font-size: 0.625rem;
-    text-transform: uppercase;
+    font-size: 0.72rem;
     font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
     color: var(--on-surface-variant);
-    letter-spacing: 0.15em;
+    display: block;
+    margin-bottom: 1rem;
 }
 
 .total-row {
     display: flex;
     justify-content: space-between;
-    align-items: flex-end;
-    margin-top: 0.5rem;
+    align-items: center;
 }
 
 .total-label {
-    font-size: 0.875rem;
+    color: var(--on-surface-variant);
+    font-size: 0.9rem;
 }
 
 .total-amount {
+    font-family: 'Manrope', sans-serif;
+    font-weight: 800;
+    font-size: 1.5rem;
     color: var(--secondary);
-    font-size: 2.5rem;
-    font-weight: 900;
-    font-family: 'Manrope';
-    line-height: 1;
+}
+
+/* ============================================================
+   FORMULARIO DE CHECKOUT
+============================================================ */
+.checkout-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
 }
 
 .form-title {
-    font-size: 1.25rem;
+    font-family: 'Manrope', sans-serif;
     font-weight: 700;
-    margin-bottom: 1.5rem;
+    font-size: 1rem;
+    color: var(--on-surface);
+    margin: 0 0 0.5rem;
 }
 
 .form-group {
-    margin-bottom: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
 }
 
 .form-label {
-    display: block;
-    font-size: 0.625rem;
-    font-weight: 700;
-    text-transform: uppercase;
+    font-size: 0.78rem;
+    font-weight: 600;
     color: var(--on-surface-variant);
-    letter-spacing: 0.1em;
-    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
 }
 
 .form-input {
-    width: 100%;
     background: rgba(255, 255, 255, 0.05);
-    border: 1px solid var(--glass-border);
+    border: 1px solid var(--outline-variant);
     border-radius: var(--radius-md);
-    padding: 0.875rem 1.25rem;
     color: var(--on-surface);
-    font-family: inherit;
-    transition: all 0.3s;
+    padding: 0.65rem 0.9rem;
+    font-size: 0.9rem;
+    width: 100%;
+    box-sizing: border-box;
+    transition: border-color 0.2s, background 0.2s;
+    font-family: 'Inter', sans-serif;
 }
 
 .form-input:focus {
     outline: none;
-    background: rgba(255, 255, 255, 0.08);
-    border-color: var(--secondary);
-    box-shadow: 0 0 0 4px rgba(68, 221, 193, 0.1);
+    border-color: var(--primary);
+    background: rgba(205, 189, 255, 0.05);
 }
 
+/* Botones del formulario */
 .btn-primary {
-    background: linear-gradient(135deg, var(--primary-container), var(--primary));
-    color: var(--on-primary);
-    width: 100%;
-    padding: 1.125rem;
+    background: var(--primary-container);
+    color: #fff;
     border: none;
     border-radius: var(--radius-md);
-    font-weight: 800;
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
+    padding: 0.85rem 1.5rem;
+    font-weight: 700;
+    font-size: 0.95rem;
     cursor: pointer;
-    margin-top: 1rem;
-    box-shadow: 0 10px 20px -5px rgba(93, 33, 223, 0.4);
-    transition: all 0.3s;
+    width: 100%;
+    transition: opacity 0.2s, transform 0.1s;
+    font-family: 'Manrope', sans-serif;
+    letter-spacing: 0.02em;
 }
 
 .btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 15px 25px -5px rgba(93, 33, 223, 0.5);
-    filter: brightness(1.1);
+    opacity: 0.88;
+    transform: translateY(-1px);
 }
 
 .btn-ghost {
-    background: none;
-    border: none;
+    background: transparent;
     color: var(--on-surface-variant);
-    font-size: 0.75rem;
+    border: 1px solid var(--outline-variant);
+    border-radius: var(--radius-md);
+    padding: 0.75rem 1.5rem;
     font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
+    font-size: 0.9rem;
     cursor: pointer;
     width: 100%;
-    margin-top: 1.25rem;
-    transition: color 0.2s;
+    transition: border-color 0.2s, color 0.2s;
+    font-family: 'Inter', sans-serif;
 }
 
 .btn-ghost:hover {
+    border-color: var(--on-surface-variant);
     color: var(--on-surface);
 }
 
-.close-modal {
-    position: absolute;
-    top: 2rem;
-    right: 2rem;
-    background: none;
-    border: none;
-    color: var(--on-surface-variant);
-    cursor: pointer;
-    transition: color 0.2s;
-    z-index: 10;
-}
-
-.close-modal:hover {
-    color: var(--on-surface);
-}
-
-/* Helpers */
-.flex-cols-2 {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 1rem;
-}
-
-/* === NUEVAS CLASES PARA LA INTERACCIÓN (AÑADIDAS) === */
-
-/* Clase para el contador (badge) sobre el icono del carrito */
-.cart-badge {
-    position: absolute;
-    top: -5px;
-    right: -5px;
-    background-color: var(--secondary); /* Usamos la variable definida en :root */
-    color: #000;
-    border-radius: 50%;
-    padding: 2px 6px;
-    font-size: 0.7rem;
-    font-weight: bold;
-    /* Empieza oculto */
-    display: none; 
-}
-
-/* Clase de utilidad para mostrar el badge con JS */
-.cart-badge.show {
-    display: block;
-}
-
-/* Clase de utilidad para mostrar el modal con JS */
-.modal-overlay.show {
-    display: flex;
-}
-
-
-
-/* === CLASES DE INTERACCIÓN CORREGIDAS === */
-
-
+/* ============================================================
+   BADGE DEL CONTADOR DEL CARRITO EN EL HEADER
+============================================================ */
 #cart-icon-btn {
     position: relative;
     display: flex;
@@ -451,183 +377,19 @@ h4,
     justify-content: center;
 }
 
-.cart-badge {
-    position: absolute;
-    /* Ajustamos la posición para que quede en la esquina superior derecha del icono */
-    top: -2px;
-    right: -2px;
-    background-color: var(--secondary);
-    color: #000;
-    border-radius: 50%;
-    /* Tamaño fijo para que sea un círculo perfecto */
-    min-width: 18px;
-    height: 18px;
-    display: none; /* Oculto por defecto */
-    align-items: center;
-    justify-content: center;
-    font-size: 0.65rem;
-    font-weight: 800;
-    padding: 2px;
-    pointer-events: none; /* Para que no interfiera con el clic del botón */
-}
-
-.cart-badge.show {
-    display: flex; /* Cambiado a flex para centrar el número */
-}
-
-.modal-overlay.show {
-    display: flex;
-}
-
-/* === TOAST NOTIFICATION STYLES === */
-.toast-notification {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    background: #1c1b1b;
-    border-left: 4px solid #44ddc1; /* Color secundario de tu paleta */
-    color: white;
-    padding: 16px 24px;
-    border-radius: 12px;
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    z-index: 9999;
-    transform: translateX(120%);
-    transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-}
-
-.toast-notification.show {
-    transform: translateX(0);
-}
-
-.toast-content {
-    display: flex;
-    flex-direction: column;
-}
-
-.toast-title {
-    font-weight: 800;
-    font-family: 'Manrope', sans-serif;
-    font-size: 0.95rem;
-    margin: 0;
-}
-
-.toast-msg {
-    font-size: 0.85rem;
-    color: #cbc3d9;
-    margin: 0;
-}
-/* === TOAST ULTRA COMPACTO === */
-.toast-mini {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background: #1c1b1b;
-    color: #e5e2e1;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-left: 3px solid #44ddc1;
-    padding: 8px 12px;
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    z-index: 10000;
-    pointer-events: none; /* No estorba si quieres hacer clic debajo */
-    
-    /* Estado inicial */
-    opacity: 0;
-    transform: translateY(-10px) scale(0.95);
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.toast-mini.active {
-    opacity: 1;
-    transform: translateY(0) scale(1);
-}
-
-.toast-mini.error {
-    border-left-color: #ffb4ab;
-}
-
-.mini-icon {
-    font-size: 16px !important; /* Muy pequeño */
-    color: #44ddc1;
-}
-
-.toast-mini.error .mini-icon {
-    color: #ffb4ab;
-}
-
-.mini-content {
-    font-size: 11px; /* Letra bien pequeña y elegante */
-    font-family: 'Inter', sans-serif;
-    white-space: nowrap; /* Todo en una sola línea */
-}
-
-.mini-content strong {
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-    color: #cdbdff; /* Un toque de color para el título */
-}
-
-.modal-overlay.show {
-    display: flex;
-    backdrop-filter: blur(8px);
-}
-
-.status-pill {
-    background: rgba(68, 221, 193, 0.1);
-    color: #44ddc1;
-    padding: 4px 12px;
-    border-radius: 20px;
-    font-size: 0.8rem;
-    font-weight: 600;
-}
-/* Overlay Base */
-/* --- ESTILOS DEL MODAL DE CARRITO (BASE) --- */
-.modal-overlay {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(0, 0, 0, 0.85);
-    backdrop-filter: blur(8px);
-    display: none;
-    justify-content: center;
-    align-items: center;
-    z-index: 10000;
-}
-
-.modal-overlay.show { display: flex; }
-
-.modal-card {
-    background: #131313;
-    width: 95%;
-    max-width: 900px;
-    border-radius: 24px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    overflow: hidden;
-    position: relative;
-}
-
-@media (max-width: 768px) {
-    .modal-card { grid-template-columns: 1fr; max-height: 90vh; overflow-y: auto; }
-}
-
-/* --- ESTILOS DEL MODAL DE ÉXITO (CORREGIDO Y MEJORADO) --- */
+/* ============================================================
+   MODAL DE COMPRA EXITOSA
+   Overlay que aparece sobre todo al completar el checkout
+============================================================ */
 .success-overlay {
     position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(0,0,0,0.9);
+    inset: 0;
+    background: rgba(0, 0, 0, 0.9);
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 11000;
-    animation: fadeIn 0.3s ease;
+    animation: successFadeIn 0.3s ease;
 }
 
 .success-card {
@@ -639,20 +401,29 @@ h4,
     width: 90%;
     border: 1px solid var(--secondary);
     box-shadow: 0 20px 50px rgba(68, 221, 193, 0.15);
-    transform: scale(1);
-    animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    animation: successPopIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-@keyframes popIn { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+@keyframes successFadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
 
+@keyframes successPopIn {
+    from { transform: scale(0.8); opacity: 0; }
+    to   { transform: scale(1);   opacity: 1; }
+}
+
+/* Icono de verificacion en la tarjeta de exito */
 .success-icon {
-    font-size: 80px !important;
+    font-size: 80px;
     color: var(--secondary);
     margin-bottom: 20px;
     display: block;
+    font-variation-settings: 'FILL' 1;
 }
 
+/* Bloque del numero de boleta */
 .boleta-tag {
     background: rgba(255, 255, 255, 0.03);
     border: 1px dashed rgba(255, 255, 255, 0.2);
@@ -670,13 +441,76 @@ h4,
     display: block;
 }
 
+/* Barra de cierre automatico del modal de exito */
 .auto-close-bar {
     height: 4px;
     background: var(--secondary);
     width: 100%;
     margin-top: 20px;
     border-radius: 2px;
-    animation: shrink 5s linear forwards;
+    animation: barShrink 5s linear forwards;
 }
 
-@keyframes shrink { from { width: 100%; } to { width: 0%; } }
+@keyframes barShrink {
+    from { width: 100%; }
+    to   { width: 0%;   }
+}
+
+/* ============================================================
+   UTILIDADES COMPARTIDAS
+============================================================ */
+.status-pill {
+    background: rgba(68, 221, 193, 0.1);
+    color: #44ddc1;
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+/* ============================================================
+   RESPONSIVE DEL MODAL
+   En pantallas menores a 1024px el panel se apila verticalmente
+============================================================ */
+@media (max-width: 1024px) {
+    .modal-card {
+        flex-direction: column;
+        max-width: 100%;
+        width: 100%;
+        height: 100vh;
+        overflow-y: auto;
+    }
+
+    .modal-items-section {
+        border-right: none;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        overflow-y: visible;
+        padding: 2rem 1.5rem 1.5rem;
+    }
+
+    .modal-checkout-section {
+        width: 100%;
+        min-width: unset;
+        max-height: 55vh;
+        overflow-y: auto;
+        padding: 1.5rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .modal-items-section {
+        padding: 1.5rem 1rem 1rem;
+    }
+
+    .modal-checkout-section {
+        padding: 1rem;
+    }
+
+    .modal-header .title {
+        font-size: 1.3rem;
+    }
+
+    .total-amount {
+        font-size: 1.25rem;
+    }
+}

@@ -1,53 +1,207 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>TOKETHUB | Premium Event Marketplace</title>
+    <title>TICKETHUB | Premium Event Marketplace</title>
     <link
         href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&family=Inter:wght@400;500;600&display=swap"
         rel="stylesheet" />
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    <link rel="stylesheet" href="/CSS/carrito.css" />
     <link rel="stylesheet" href="/CSS/index.css" />
+    <link rel="stylesheet" href="/CSS/carrito.css" />
+    <!-- Seed de datos sinteticos: se ejecuta antes que cualquier otro script -->
+    <script src="/JS/seed-data.js"></script>
 </head>
 
 <body>
+    <!-- ============================================================
+         BARRA DE NAVEGACION PRINCIPAL
+         Contiene logo, busqueda, carrito y boton de acceso admin
+    ============================================================ -->
     <div class="app-container">
-        <header>
+        <header class="main-header">
             <div class="header-left">
-                <a class="logo" href="#">TOKETHUB</a>
+                <a class="logo" href="/HTML/index.html">TICKETHUB</a>
             </div>
+            <nav class="header-nav">
+                <a href="#como-funciona" class="nav-link-header">Como funciona</a>
+                <a href="#eventos" class="nav-link-header">Eventos</a>
+            </nav>
             <div class="header-actions">
                 <div class="search-bar">
                     <span class="material-symbols-outlined search-icon">search</span>
-                    <input id="event-search" placeholder="Search by event name..." type="text" />
+                    <input id="event-search" placeholder="Buscar eventos..." type="text" />
                 </div>
                 <button class="icon-btn" id="cart-icon-btn">
                     <span class="material-symbols-outlined">shopping_cart</span>
                     <span class="cart-badge" id="cart-count">0</span>
                 </button>
                 <a href="/HTML/login-page.html">
-                    <button class="icon-btn">
-                        <span class="material-symbols-outlined">login</span>
+                    <button class="btn-admin-access">
+                        <span class="material-symbols-outlined">admin_panel_settings</span>
+                        Admin
                     </button>
                 </a>
             </div>
         </header>
 
-        <main>
+        <!-- ============================================================
+             HERO SECTION - LANDING PAGE
+             Seccion principal de bienvenida con llamada a la accion
+        ============================================================ -->
+        <section class="hero-section">
+            <div class="hero-content">
+                <span class="hero-badge">La plataforma de tickets #1 en Guatemala</span>
+                <h1 class="hero-title">
+                    Tu entrada al mejor
+                    <span class="hero-highlight">entretenimiento</span>
+                    en vivo
+                </h1>
+                <p class="hero-subtitle">
+                    Descubre conciertos, festivales y eventos exclusivos. Compra tus tickets
+                    de forma segura y vive experiencias inolvidables.
+                </p>
+                <div class="hero-actions">
+                    <a href="#eventos" class="btn-hero-primary">Ver eventos disponibles</a>
+                    <a href="#como-funciona" class="btn-hero-secondary">Como funciona</a>
+                </div>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">500+</span>
+                        <span class="stat-label">Eventos realizados</span>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-item">
+                        <span class="stat-number">50K+</span>
+                        <span class="stat-label">Tickets vendidos</span>
+                    </div>
+                    <div class="stat-divider"></div>
+                    <div class="stat-item">
+                        <span class="stat-number">100%</span>
+                        <span class="stat-label">Pagos seguros</span>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="hero-card-floating card-1">
+                    <span class="material-symbols-outlined card-icon">music_note</span>
+                    <span class="card-text">Noche Electrica 2026</span>
+                    <span class="card-sub">5 Dic · Guatemala City</span>
+                </div>
+                <div class="hero-card-floating card-2">
+                    <span class="material-symbols-outlined card-icon">festival</span>
+                    <span class="card-text">Cayala Sounds Festival</span>
+                    <span class="card-sub">13 Dic · Cayala</span>
+                </div>
+                <div class="hero-card-floating card-3">
+                    <span class="material-symbols-outlined card-icon">album</span>
+                    <span class="card-text">Rock en el Mateo</span>
+                    <span class="card-sub">20 Dic · Mateo Flores</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             SECCION COMO FUNCIONA
+             Explica el proceso de compra en 3 pasos claros
+        ============================================================ -->
+        <section class="how-section" id="como-funciona">
+            <div class="section-label">Simple y rapido</div>
+            <h2 class="section-heading">Como funciona TICKETHUB</h2>
+            <p class="section-desc">En solo tres pasos ya tendras tus entradas listas para vivir la experiencia.</p>
+            <div class="steps-grid">
+                <div class="step-card" data-step="1">
+                    <div class="step-number">01</div>
+                    <div class="step-icon-wrap">
+                        <span class="material-symbols-outlined step-icon">search</span>
+                    </div>
+                    <h3 class="step-title">Encuentra tu evento</h3>
+                    <p class="step-desc">
+                        Explora nuestra cartelera de conciertos, festivales y eventos. Filtra por
+                        categoria, ciudad y precio para encontrar exactamente lo que buscas.
+                    </p>
+                </div>
+                <div class="step-connector"></div>
+                <div class="step-card" data-step="2">
+                    <div class="step-number">02</div>
+                    <div class="step-icon-wrap">
+                        <span class="material-symbols-outlined step-icon">shopping_cart</span>
+                    </div>
+                    <h3 class="step-title">Selecciona tus tickets</h3>
+                    <p class="step-desc">
+                        Agrega los tickets que deseas al carrito. Puedes comprar para varios
+                        eventos a la vez y revisar el resumen antes de confirmar.
+                    </p>
+                </div>
+                <div class="step-connector"></div>
+                <div class="step-card" data-step="3">
+                    <div class="step-number">03</div>
+                    <div class="step-icon-wrap">
+                        <span class="material-symbols-outlined step-icon">verified</span>
+                    </div>
+                    <h3 class="step-title">Confirma y disfruta</h3>
+                    <p class="step-desc">
+                        Completa tu informacion de contacto y confirma tu compra. Recibiras
+                        la confirmacion de tu entrada y estara lista para el gran dia.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             SECCION CARACTERISTICAS / BENEFICIOS
+             Destaca las ventajas de usar la plataforma
+        ============================================================ -->
+        <section class="features-section">
+            <div class="features-grid">
+                <div class="feature-item">
+                    <span class="material-symbols-outlined feature-icon">shield</span>
+                    <h4 class="feature-title">Compra 100% segura</h4>
+                    <p class="feature-desc">Tus datos estan protegidos. Garantizamos la autenticidad de cada ticket.</p>
+                </div>
+                <div class="feature-item">
+                    <span class="material-symbols-outlined feature-icon">flash_on</span>
+                    <h4 class="feature-title">Proceso rapido</h4>
+                    <p class="feature-desc">Compra en menos de 2 minutos. Sin formularios complicados ni esperas.</p>
+                </div>
+                <div class="feature-item">
+                    <span class="material-symbols-outlined feature-icon">support_agent</span>
+                    <h4 class="feature-title">Soporte disponible</h4>
+                    <p class="feature-desc">Nuestro equipo esta listo para ayudarte antes y durante el evento.</p>
+                </div>
+                <div class="feature-item">
+                    <span class="material-symbols-outlined feature-icon">local_activity</span>
+                    <h4 class="feature-title">Eventos exclusivos</h4>
+                    <p class="feature-desc">Accede a preventa y tickets exclusivos solo disponibles en TICKETHUB.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================
+             SECCION DE EVENTOS
+             Catalogo dinamico cargado desde localStorage por script_index.js
+        ============================================================ -->
+        <section class="catalog-section" id="eventos">
+            <div class="catalog-header">
+                <div>
+                    <div class="section-label">Cartelera actual</div>
+                    <h2 class="section-heading">Proximos eventos</h2>
+                </div>
+            </div>
+
             <div class="filters-container">
                 <div class="pill-group" id="category-pills">
-                    <button class="pill active" data-category="all">All Events</button>
+                    <button class="pill active" data-category="all">Todos</button>
                 </div>
                 <div class="filter-actions">
                     <div class="filter-group">
-                        <label class="filter-label">City</label>
+                        <label class="filter-label">Ciudad</label>
                         <div class="select-wrapper">
                             <select class="select-custom" id="city-filter">
-                                <option value="all">All Cities</option>
+                                <option value="all">Todas las ciudades</option>
                                 <option>Guatemala City - Cementos Progreso</option>
                                 <option>Guatemala City - Cayala</option>
                                 <option>Guatemala City - Estadio Mateo Flores</option>
@@ -57,11 +211,11 @@
                         </div>
                     </div>
                     <div class="filter-group">
-                        <label class="filter-label">Max Price ($)</label>
-                        <input type="number" id="price-filter" placeholder="Any" class="filter-input-num" min="0">
+                        <label class="filter-label">Precio max. ($)</label>
+                        <input type="number" id="price-filter" placeholder="Cualquiera" class="filter-input-num" min="0">
                     </div>
                     <div class="filter-group">
-                        <label class="filter-label">Date Range</label>
+                        <label class="filter-label">Rango de fechas</label>
                         <div class="date-inputs">
                             <input type="date" id="date-start" class="filter-input-date">
                             <input type="date" id="date-end" class="filter-input-date">
@@ -71,13 +225,42 @@
             </div>
 
             <div class="section-header">
-                <h2 class="section-title">Upcoming Events</h2>
+                <h2 class="section-title"></h2>
                 <span id="results-count" class="results-badge"></span>
             </div>
             <div id="event-grid" class="event-grid"></div>
-        </main>
+        </section>
+
+        <!-- ============================================================
+             FOOTER DE LA PAGINA
+        ============================================================ -->
+        <footer class="landing-footer">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <span class="logo">TICKETHUB</span>
+                    <p>La plataforma de tickets mas confiable de Guatemala.</p>
+                </div>
+                <div class="footer-links">
+                    <span class="footer-link-title">Plataforma</span>
+                    <a href="#eventos">Ver eventos</a>
+                    <a href="#como-funciona">Como funciona</a>
+                </div>
+                <div class="footer-links">
+                    <span class="footer-link-title">Admin</span>
+                    <a href="/HTML/login-page.html">Acceso admin</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>2026 TICKETHUB. Proyecto educativo.</span>
+            </div>
+        </footer>
     </div>
 
+    <!-- ============================================================
+         MODAL DE CARRITO DE COMPRAS
+         Overlay que muestra los items seleccionados y el formulario
+         de checkout del usuario
+    ============================================================ -->
     <div class="modal-overlay" id="cart-modal">
         <div class="modal-card">
             <button class="close-modal" id="close-modal-btn">
@@ -86,8 +269,8 @@
             <div class="modal-items-section">
                 <div class="modal-header">
                     <div>
-                        <span class="tagline">Your Selection </span>
-                        <h2 class="title">Shopping Cart</h2>
+                        <span class="tagline">Tu seleccion</span>
+                        <h2 class="title">Carrito de compras</h2>
                     </div>
                 </div>
                 <div id="modal-cart-items"></div>
@@ -95,37 +278,37 @@
 
             <div class="modal-checkout-section">
                 <div class="summary-block">
-                    <span class="summary-label">Order Summary</span>
+                    <span class="summary-label">Resumen de orden</span>
                     <div class="total-row">
-                        <span class="total-label">Total Amount</span>
+                        <span class="total-label">Total a pagar</span>
                         <span class="total-amount">$<span id="total-price">0.00</span></span>
                     </div>
                 </div>
 
                 <form class="checkout-form" id="checkout-form">
-                    <h3 class="form-title">Personal Information</h3>
+                    <h3 class="form-title">Informacion personal</h3>
                     <div class="form-group">
-                        <label class="form-label">Identification Number</label>
+                        <label class="form-label">Numero de identificacion</label>
                         <input type="text" id="cust-id" class="form-input" required>
                     </div>
                     <div class="form-group">
-                        <label class="form-label">Full Name</label>
+                        <label class="form-label">Nombre completo</label>
                         <input type="text" id="cust-name" class="form-input" required>
                     </div>
                     <div class="form-group">
-                        <label class="form-label">E-mail Address</label>
+                        <label class="form-label">Correo electronico</label>
                         <input type="email" id="cust-email" class="form-input" required>
                     </div>
                     <div class="form-group">
-                        <label class="form-label">Physical Address</label>
+                        <label class="form-label">Direccion</label>
                         <input type="text" id="cust-address" class="form-input" required>
                     </div>
                     <div class="form-group">
-                        <label class="form-label">Phone Number</label>
+                        <label class="form-label">Numero de telefono</label>
                         <input type="tel" id="cust-phone" class="form-input" required>
                     </div>
-                    <button class="btn-primary" type="submit">Buy Tickets Now</button>
-                    <button class="btn-ghost" id="continue-shopping" type="button">Continue Shopping</button>
+                    <button class="btn-primary" type="submit">Comprar tickets</button>
+                    <button class="btn-ghost" id="continue-shopping" type="button">Seguir explorando</button>
                 </form>
             </div>
         </div>

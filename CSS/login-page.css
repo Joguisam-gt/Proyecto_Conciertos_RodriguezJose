@@ -371,3 +371,49 @@
 .reveal-on-scroll.delay-2 { animation-delay: 0.2s; }
 .reveal-on-scroll.delay-3 { animation-delay: 0.3s; }
 .reveal-on-scroll.delay-4 { animation-delay: 0.4s; }
+
+/* ============================================================
+   RESPONSIVE DESIGN - LOGIN PAGE
+   Breakpoints: 768px (tablet), 480px (movil)
+============================================================ */
+
+@media (max-width: 768px) {
+    .login-container {
+        flex-direction: column;
+        height: auto;
+        min-height: 100vh;
+    }
+
+    /* Panel de marca: reducido a banner compacto */
+    .login-brand-panel {
+        width: 100%;
+        min-height: 180px;
+        padding: 2rem;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+    }
+
+    .login-brand-panel .decorative-circles,
+    .login-brand-panel .brand-tagline {
+        display: none;
+    }
+
+    /* Panel del formulario */
+    .login-form-panel {
+        width: 100%;
+        padding: 2rem 1.5rem;
+        justify-content: flex-start;
+    }
+}
+
+@media (max-width: 480px) {
+    .login-brand-panel {
+        min-height: 140px;
+        padding: 1.5rem;
+    }
+
+    .login-form-panel {
+        padding: 1.5rem 1rem;
+    }
+}
